@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="/css/signin.css">
+
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+        <div class="card card-body ">
+            <h1 class="text-center text-center text-decoration-underline">
+                SignIn Page
+            </h1>
+
+            <form action="/users/create-session" method="POST">
+
+                <div class="form-group p-2">
+                    <label for="Email">Email address</label>
+                    <input type="email" 
+                        class="form-control"
+                        id="Email"
+                        aria-describedby="emailHelp" 
+                        value="<%= typeof email !='undefined' ? 'Email' : '' %>"
+                        placeholder="Enter email"
+                        />
+                </div>
+
+                
+                <div class="form-group p-2">
+                    <label for="Password">Password</label>
+                    <input type="password" 
+                        class="form-control"
+                        id="Password" 
+                        value="<%= typeof password !='undefined' ? 'Password' : '' %>
+                        placeholder="Password"
+                        />
+                </div>
+
+
+                <div class="p-2">
+                    <button type="submit" 
+                        class="btn btn-primary">
+                        SIGNIN
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
