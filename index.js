@@ -8,6 +8,8 @@ const db = require('./config/mongoose');
 const session = require('express-session');
 const flash = require('connect-flash');
 const customWare=require('./config/middleware');
+const bcrypt = require('bcrypt');
+
 
 app.use(express.urlencoded());
 app.use(cookieParser());
