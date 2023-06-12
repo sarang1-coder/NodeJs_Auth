@@ -1,7 +1,37 @@
 const User = require('../models/User');
 
-module.exports.profile = function(req, res) {
-  return res.render('profile');
+module.exports.profile = async function(req, res) {
+
+  var id=req.cookies.user_id;
+
+  try{
+
+  var user = await User.findById(id);
+
+if (user) { 
+  var profile_user = {
+    name: user.name,
+    email: user.email,
+    
+  };
+
+  return res.render('profile', {
+    title: 'User Profile',
+    profile_user: profile_user,
+  });
+
+  } 
+  else {
+
+  return res.redirect('/users/signin');
+  
+  }
+
+  }catch(err){
+    console.log(err);
+    return res.redirect('back');
+  }
+
 };
 
 module.exports.dashboard = function(req, res) {
@@ -20,7 +50,7 @@ module.exports.create = async function(req, res) {
 
   const { name, email, password, confirm_password } = req.body;
 
-  if (password != confirm_password) {
+  if (password !== confirm_password) {
     req.flash('error', 'Passwords do not match');
     return res.redirect('back');
   }
@@ -31,9 +61,16 @@ module.exports.create = async function(req, res) {
 
     if (!user) 
     {
-      const newUser = await User.create(req.body);
+      const newUser = await User.create({
+          name: name,
+          email: email,
+          password: password,
+      });
+
+      console.log(newUser.name);
       req.flash('success', 'Account created successfully');
       return res.redirect('/users/signin');
+
     } 
     else 
     {
@@ -49,6 +86,33 @@ module.exports.create = async function(req, res) {
 
 };
 
-module.exports.createSession = function(req, res) {
-  // TODO: Implement createSession function
+module.exports.createSession = async function(req, res) {
+
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email: email });
+
+  try {
+
+    if (user) {
+
+      if (user.password === password) {
+
+        return res.redirect('back');
+      } 
+      
+        res.cookie('user_id',user.id);
+        return res.redirect('/users/profile');
+        
+    } else {
+      req.flash('error', 'Invalid email or password');
+      return res.redirect('back');
+    }
+
+  } catch (error) {
+    console.error(error);
+    req.flash('error', 'An error occurred');
+    return res.redirect('back');
+  }
+
 };
