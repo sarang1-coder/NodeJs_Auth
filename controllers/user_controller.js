@@ -116,3 +116,9 @@ module.exports.createSession = async function(req, res) {
   }
 
 };
+
+module.exports.signOut=function(req,res){
+
+  res.redirect('/users/signin');
+
+}
