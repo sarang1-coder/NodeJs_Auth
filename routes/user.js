@@ -19,6 +19,13 @@ router.post('/create',userController.create);
 router.post('/create-session',userController.createSession);
 
 
+router.get('/update-password',userController.updatePassword);
+
+
+router.post('/update-password',userController.handleUpdatePassword);
+
+
+
 router.get('/signout',userController.signOut);
 
 
